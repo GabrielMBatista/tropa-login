@@ -19,8 +19,8 @@ import {
   ToggleVisibility,
 } from "./LoginForm.styles";
 import { useState } from "react";
-import { Eye } from "@/components/atoms/icons/Eye";
-import { EyeOff } from "@/components/atoms/icons/EyeOff";
+import { Eye } from "@/components/atoms/Icons/Eye";
+import { EyeOff } from "@/components/atoms/Icons/EyeOff";
 import { authenticate } from "@/utils/auth";
 
 export const LoginForm = () => {

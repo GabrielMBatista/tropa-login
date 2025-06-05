@@ -1,9 +1,10 @@
-import { StyledLabel } from './Label.styles';
+import React from "react";
 
-interface LabelProps {
+export interface LabelProps
+  extends React.LabelHTMLAttributes<HTMLLabelElement> {
   children: React.ReactNode;
 }
 
-export const Label = ({ children }: LabelProps) => {
-  return <StyledLabel>{children}</StyledLabel>;
+export const Label: React.FC<LabelProps> = ({ children, ...rest }) => {
+  return <label {...rest}>{children}</label>;
 };

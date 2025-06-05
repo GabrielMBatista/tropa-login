@@ -12,7 +12,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: ${({ theme }) => theme.font.family};
     font-size: ${({ theme }) => theme.font.size.base};
     line-height: ${({ theme }) => theme.font.lineHeight.base};
-    color: ${({ theme }) => theme.colors.grayDark};
+    color: ${({ theme }) => theme.colors.gray900};
     background-color: ${({ theme }) => theme.colors.white};
     height: 100%;
   }

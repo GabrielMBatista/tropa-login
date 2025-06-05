@@ -34,7 +34,7 @@ export const SearchBar = styled.div`
   display: flex;
   align-items: center;
   padding: 10px 15px;
-  background: ${({ theme }) => theme.colors.grayLight};
+  background: ${({ theme }) => theme.colors.gray300};
   border-radius: 33px;
   margin-right: ${({ theme }) => theme.spacing.sm};
 `;

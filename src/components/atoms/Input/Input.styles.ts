@@ -1,10 +1,10 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const StyledInput = styled.input`
   padding: ${({ theme }) => theme.spacing.sm};
-  border: 1px solid ${({ theme }) => theme.colors.gray300};
+  border: 1px solid ${({ theme }) => theme.colors.gray500};
   border-radius: ${({ theme }) => theme.borderRadius.base};
-  font-size: ${({ theme }) => theme.font.bodyMd};
+  font-size: ${({ theme }) => theme.font.size.md};
   color: ${({ theme }) => theme.colors.gray900};
 
   &:focus {
@@ -13,6 +13,6 @@ export const StyledInput = styled.input`
   }
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.gray500};
+    color: ${({ theme }) => theme.colors.gray300};
   }
 `;

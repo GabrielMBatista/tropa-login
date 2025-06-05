@@ -1,7 +1,7 @@
-import { InputGroupWrapper } from './InputGroup.styles';
-import { Label } from '@/components/atoms/Label/Label';
-import { Input } from '@/components/atoms/Input/Input';
-import { ErrorMessage } from '@/components/atoms/ErrorMessage/ErrorMessage';
+import { InputGroupWrapper } from "./InputGroup.styles";
+import { Label } from "@/components/atoms/Label/Label";
+import { Input } from "@/components/atoms/Input/Input";
+import { ErrorMessage } from "@/components/atoms/ErrorMessage/ErrorMessage";
 
 interface InputGroupProps {
   label: string;
@@ -16,7 +16,7 @@ interface InputGroupProps {
 export const InputGroup = ({
   label,
   name,
-  type = 'text',
+  type = "text",
   placeholder,
   value,
   error,

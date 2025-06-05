@@ -2,11 +2,12 @@ export const theme = {
   colors: {
     primary: "#CC6237",
     secondary: "#D8BCA9",
+    error: "#EF4444",
     white: "#FFFFFF",
     black: "#000000",
-    grayLight: "#F6F6F6",
-    grayMedium: "#657593",
-    grayDark: "#252525",
+    gray300: "#F6F6F6",
+    gray500: "#657593",
+    gray900: "#252525",
     divider: "rgba(0, 0, 0, 0.1)",
     focusRing: "#B2CCFF",
     shadow: "0px 100px 200px rgba(0, 0, 0, 0.25)",
@@ -50,6 +51,7 @@ export const theme = {
   },
 
   borderRadius: {
+    base: "8px",
     full: "100px",
     md: "20px",
     sm: "10px",

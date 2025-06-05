@@ -23,7 +23,7 @@ export const TableCell = styled.div<{ header?: boolean }>`
   font-weight: ${({ header, theme }) =>
     header ? theme.font.weight.medium : theme.font.weight.regular};
   color: ${({ header, theme }) =>
-    header ? "rgba(204, 98, 55, 0.5)" : theme.colors.grayMedium};
+    header ? "rgba(204, 98, 55, 0.5)" : theme.colors.gray500};
 
   &:nth-child(2),
   &:nth-child(3),
@@ -68,7 +68,7 @@ export const SearchBar = styled.div`
   display: flex;
   align-items: center;
   padding: 10px 15px;
-  background: ${({ theme }) => theme.colors.grayLight};
+  background: ${({ theme }) => theme.colors.gray300};
   border-radius: 33px;
   margin-right: ${({ theme }) => theme.spacing.sm};
 `;

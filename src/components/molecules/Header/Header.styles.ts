@@ -19,7 +19,7 @@ export const TopText = styled.span`
 
   strong {
     font-weight: ${({ theme }) => theme.font.weight.bold};
-    color: ${({ theme }) => theme.colors.grayDark};
+    color: ${({ theme }) => theme.colors.gray900};
   }
 `;
 

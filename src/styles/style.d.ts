@@ -7,15 +7,16 @@ declare module "styled-components" {
       secondary: string;
       white: string;
       black: string;
-      grayLight: string;
-      grayMedium: string;
-      grayDark: string;
+      gray300: string;
+      gray500: string;
+      gray900: string;
       divider: string;
       focusRing: string;
       shadow: string;
       statusActive: string;
       text: string;
       background: string;
+      error: string;
     };
     font: {
       family: string;
@@ -50,6 +51,7 @@ declare module "styled-components" {
       xl: string;
     };
     borderRadius: {
+      base: string;
       full: string;
       md: string;
       sm: string;

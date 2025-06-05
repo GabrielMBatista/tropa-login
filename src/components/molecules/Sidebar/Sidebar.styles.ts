@@ -30,7 +30,7 @@ export const Logo = styled.img`
 export const TitleNav = styled.span`
   font-size: ${({ theme }) => theme.font.size.xs};
   font-weight: ${({ theme }) => theme.font.weight.extrabold};
-  color: ${({ theme }) => theme.colors.grayMedium};
+  color: ${({ theme }) => theme.colors.gray500};
   letter-spacing: 0.12em;
   padding: 0 ${({ theme }) => theme.spacing.md};
   margin-bottom: ${({ theme }) => theme.spacing.sm};
@@ -54,7 +54,7 @@ export const MenuItem = styled.div<{ $active?: boolean }>`
   width: 180px;
   height: 35px;
   color: ${({ $active, theme }) =>
-    $active ? theme.colors.white : theme.colors.grayDark};
+    $active ? theme.colors.white : theme.colors.gray900};
   font-size: ${({ theme }) => theme.font.size.lg};
   font-weight: ${({ theme }) => theme.font.weight.medium};
   font-family: ${({ theme }) => theme.font.family};
@@ -64,7 +64,7 @@ export const MenuItem = styled.div<{ $active?: boolean }>`
     width: 15px;
     height: 15px;
     color: ${({ $active, theme }) =>
-      $active ? theme.colors.white : theme.colors.grayDark};
+      $active ? theme.colors.white : theme.colors.gray900};
   }
 `;
 

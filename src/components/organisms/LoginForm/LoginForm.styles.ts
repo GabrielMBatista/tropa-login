@@ -93,7 +93,7 @@ export const Subtitle = styled.p`
   font-family: ${({ theme }) => theme.font.family};
   font-size: ${({ theme }) => theme.font.size.base};
   font-weight: ${({ theme }) => theme.font.weight.regular};
-  color: ${({ theme }) => theme.colors.grayMedium};
+  color: ${({ theme }) => theme.colors.gray500};
   line-height: ${({ theme }) => theme.font.lineHeight.tight};
 `;
 
@@ -144,13 +144,13 @@ export const StyledInput = styled.input`
   width: 100%;
   height: 40px;
   border: none;
-  background-color: ${({ theme }) => theme.colors.grayLight};
+  background-color: ${({ theme }) => theme.colors.gray300};
   border-radius: 100px;
   font-size: 12px;
-  color: ${({ theme }) => theme.colors.grayDark};
+  color: ${({ theme }) => theme.colors.gray900};
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.grayMedium};
+    color: ${({ theme }) => theme.colors.gray500};
   }
 `;
 

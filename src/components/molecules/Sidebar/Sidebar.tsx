@@ -17,12 +17,12 @@ import {
   UserRole,
 } from "./Sidebar.styles";
 
-import { Squares } from "@/components/atoms/icons/Squares";
-import { IconTeam } from "@/components/atoms/icons/IconTeam";
-import { Calendar } from "@/components/atoms/icons/Calendar";
-import { People2 } from "@/components/atoms/icons/People2";
-import { UserIcon } from "@/components/atoms/icons/UserIcon";
-import { PowerOff } from "@/components/atoms/icons/PowerOff";
+import { Squares } from "@/components/atoms/Icons/Squares";
+import { IconTeam } from "@/components/atoms/Icons/IconTeam";
+import { Calendar } from "@/components/atoms/Icons/Calendar";
+import { People2 } from "@/components/atoms/Icons/People2";
+import { UserIcon } from "@/components/atoms/Icons/UserIcon";
+import { PowerOff } from "@/components/atoms/Icons/PowerOff";
 
 export const Sidebar: React.FC = () => {
   const { pathname } = useRouter();
