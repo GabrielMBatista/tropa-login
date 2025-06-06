@@ -7,10 +7,6 @@ import { Sessao } from "@/types/db";
 const dbPath = path.join(process.cwd(), "db.json");
 
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Método não permitido" });
-  }
-
   const { email, senha } = req.body;
 
   const adminEmail = process.env.NEXT_PUBLIC_AUTH_EMAIL;
