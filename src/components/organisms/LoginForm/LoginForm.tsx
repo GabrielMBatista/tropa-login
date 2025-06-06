@@ -21,7 +21,7 @@ import {
 import { useState } from "react";
 import { Eye } from "@/components/atoms/Icons/Eye";
 import { EyeOff } from "@/components/atoms/Icons/EyeOff";
-import { authenticate } from "@/utils/auth";
+import { authenticate } from '@/utils/auth';
 
 export const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -29,29 +29,18 @@ export const LoginForm = () => {
   const [erro, setErro] = useState("");
   const [senhaVisivel, setSenhaVisivel] = useState(false);
 
-  // const handleLogin = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-
-  //   const sucesso = await authenticate(email, senha);
-
-  //   if (sucesso) {
-  //     window.location.href = "/eventos";
-  //   } else {
-  //     setErro("Credenciais inválidas");
-  //   }
-  // };
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("✅ handleLogin ativado (POST manual)");
-
+  
     const sucesso = await authenticate(email, senha);
-    if (sucesso) {
+     if (sucesso) {
       window.location.href = "/eventos";
     } else {
       setErro("Credenciais inválidas");
     }
   };
-
+  
   return (
     <Container>
       <FormWrapper>

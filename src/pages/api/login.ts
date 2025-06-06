@@ -7,6 +7,8 @@ import { Sessao } from "@/types/db";
 const dbPath = path.join(process.cwd(), "db.json");
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  console.log("Método recebido:", req.method);
+
   if (req.method !== "POST") {
     res.setHeader("Allow", ["POST"]);
     return res
