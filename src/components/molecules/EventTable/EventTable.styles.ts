@@ -141,17 +141,6 @@ export const DropdownItem = styled.button`
   }
 `;
 
-export const TableScrollWrapper = styled.div`
-  width: 100%;
-  overflow-x: auto;
-
-  @media (max-width: 768px) {
-    & > div {
-      min-width: 250px;
-    }
-  }
-`;
-
 export const Row = styled.div`
   margin-bottom: 8px;
 `;
