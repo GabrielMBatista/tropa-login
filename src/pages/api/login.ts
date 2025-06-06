@@ -1,14 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import fs from "fs";
-import path from "path";
 import { v4 as uuidv4 } from "uuid";
-import { Sessao } from "@/types/db";
+import clientPromise from "@/lib/mongodb";
 
-const dbPath = path.join(process.cwd(), "db.json");
-
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  console.log("Método recebido:", req.method);
-
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method !== "POST") {
     res.setHeader("Allow", ["POST"]);
     return res
@@ -26,16 +23,22 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   const sessionId = uuidv4();
-  const db = JSON.parse(fs.readFileSync(dbPath, "utf-8"));
-  const novaSessao: Sessao = { sessionId, email };
+  const client = await clientPromise;
+  const db = client.db();
 
-  db.sessions = db.sessions || [];
-  db.sessions.push(novaSessao);
-  fs.writeFileSync(dbPath, JSON.stringify(db, null, 2));
+  await db.collection("sessions").insertOne({
+    sessionId,
+    email,
+    createdAt: new Date(),
+  });
+
+  const isSecure = req.headers["x-forwarded-proto"] === "https";
 
   res.setHeader(
     "Set-Cookie",
-    `token=${sessionId}; Path=/; Max-Age=3600; SameSite=Lax; Secure`
+    `token=${sessionId}; Path=/; Max-Age=3600; HttpOnly; SameSite=Lax${
+      isSecure ? "; Secure" : ""
+    }`
   );
 
   return res.status(200).json({ success: true });

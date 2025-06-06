@@ -1,35 +1,23 @@
-import fs from "fs";
-import path from "path";
-import { NextApiRequest, NextApiResponse } from "next";
-import { Evento } from "../../../types/Evento";
+import type { NextApiRequest, NextApiResponse } from "next";
+import clientPromise from "@/lib/mongodb";
 
-const dbPath = path.join(process.cwd(), "db.json");
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const client = await clientPromise;
+  const db = client.db();
 
-interface Database {
-  eventos: Evento[];
-}
+  const token = req.cookies.token;
+  const session = await db.collection("sessions").findOne({ sessionId: token });
+  if (!session) return res.status(401).json({ error: "Não autorizado" });
 
-function readDb(): Database {
-  const data = fs.readFileSync(dbPath, "utf-8");
-  return JSON.parse(data);
-}
-
-function writeDb(data: Database): void {
-  fs.writeFileSync(dbPath, JSON.stringify(data, null, 2));
-}
-
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
 
   if (req.method === "DELETE") {
-    const db = readDb();
-    db.eventos = db.eventos.filter((e) => e.id !== Number(id));
-    writeDb(db);
-    res.status(200).json({ deleted: true });
-  } else {
-    res.setHeader("Allow", "DELETE");
-    return res
-      .status(405)
-      .json({ error: `Método ${req.method} não permitido` });
+    await db.collection("eventos").deleteOne({ id: Number(id) });
+    return res.status(200).json({ deleted: true });
   }
+
+  res.status(405).end();
 }

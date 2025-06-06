@@ -10,7 +10,7 @@ export const Container = styled.aside<{ $mobileOpen?: boolean }>`
   padding-top: ${({ theme }) => theme.spacing.lg};
   border-right: 1px solid ${({ theme }) => theme.colors.divider};
 
-  @media (max-width: 768px) {
+  @media (max-width: 860px) {
     position: fixed;
     top: 0;
     left: ${({ $mobileOpen }) => ($mobileOpen ? "0" : "-210px")};
@@ -22,7 +22,7 @@ export const Container = styled.aside<{ $mobileOpen?: boolean }>`
 export const Backdrop = styled.div`
   display: none;
 
-  @media (max-width: 768px) {
+  @media (max-width: 860px) {
     display: block;
     position: fixed;
     top: 0;

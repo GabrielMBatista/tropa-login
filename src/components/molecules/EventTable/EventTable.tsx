@@ -20,7 +20,7 @@ import { MoreVertical } from "lucide-react";
 import { Edit } from "@/components/atoms/Icons/Edit";
 import { Trash } from "@/components/atoms/Icons/Trash";
 import { formatDateRange } from "@/utils/formatDateRange";
-import { EventCard } from "./EventCard";
+import { EventCard } from "../EventCard/EventCard";
 
 interface EventTableProps {
   eventos: Evento[];

@@ -1,8 +1,13 @@
-// middleware.ts
 import { NextRequest, NextResponse } from "next/server";
 
-// Rotas públicas
-const PUBLIC_PATHS = ["/login", "/_next", "/favicon.ico", "/api/login"];
+// Rotas públicas que não exigem autenticação
+const PUBLIC_PATHS = [
+  "/eventos",
+  "/login",
+  "/favicon.ico",
+  "/api/login",
+  "/_next",
+];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -10,39 +15,40 @@ export function middleware(request: NextRequest) {
 
   const isPublic = PUBLIC_PATHS.some((path) => pathname.startsWith(path));
 
+  // Debug via headers (aparece no DevTools > Network)
   const debugInfo = {
     path: pathname,
-    isPublic: isPublic.toString(),
     token: token || "undefined",
+    isPublic: isPublic.toString(),
   };
 
-  // Se for rota pública, permite acesso
+  // Permite acesso a rotas públicas
   if (isPublic) {
-    const response = NextResponse.next();
-    response.headers.set("X-Debug-Middleware", "public-route");
-    response.headers.set("X-Debug-Path", debugInfo.path);
-    response.headers.set("X-Debug-Token", debugInfo.token);
-    return response;
+    const res = NextResponse.next();
+    res.headers.set("X-Debug-Middleware", "public-route");
+    res.headers.set("X-Debug-Path", debugInfo.path);
+    res.headers.set("X-Debug-Token", debugInfo.token);
+    return res;
   }
 
-  // Se token estiver ausente, redireciona
+  // Se não houver token, redireciona para login
   if (!token) {
     const loginUrl = new URL("/login", request.url);
-    const response = NextResponse.redirect(loginUrl);
-    response.headers.set("X-Debug-Middleware", "redirecting-to-login");
-    response.headers.set("X-Debug-Path", debugInfo.path);
-    response.headers.set("X-Debug-Token", debugInfo.token);
-    return response;
+    const res = NextResponse.redirect(loginUrl);
+    res.headers.set("X-Debug-Middleware", "redirect-to-login");
+    res.headers.set("X-Debug-Path", debugInfo.path);
+    res.headers.set("X-Debug-Token", debugInfo.token);
+    return res;
   }
 
-  // Token existe e não é rota pública
-  const response = NextResponse.next();
-  response.headers.set("X-Debug-Middleware", "protected-access");
-  response.headers.set("X-Debug-Path", debugInfo.path);
-  response.headers.set("X-Debug-Token", debugInfo.token);
-  return response;
+  // Rota protegida com token válido
+  const res = NextResponse.next();
+  res.headers.set("X-Debug-Middleware", "authenticated-access");
+  res.headers.set("X-Debug-Path", debugInfo.path);
+  res.headers.set("X-Debug-Token", debugInfo.token);
+  return res;
 }
 
 export const config = {
-  matcher: ["/((?!api|_next|favicon.ico).*)"],
+  matcher: ["/((?!api/|_next/|favicon.ico).*)"],
 };

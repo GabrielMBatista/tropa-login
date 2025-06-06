@@ -14,23 +14,35 @@ const PUBLIC_ROUTES = ["/login"];
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const isPublic = PUBLIC_ROUTES.includes(router.pathname);
-  const [checkingAuth, setCheckingAuth] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const cookies = document.cookie;
-    const tokenExists = cookies.includes("token=");
+    const checkAuth = async () => {
+      try {
+        const res = await fetch("/api/session", {
+          method: "GET",
+          credentials: "include",
+        });
 
-    if (!tokenExists && !isPublic) {
-      setCheckingAuth(true);
-      router.replace("/login");
-    } else {
-      setCheckingAuth(false);
-    }
+        const data = await res.json();
+
+        if (!data.authenticated && !isPublic) {
+          router.replace("/login");
+        } else {
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error("Erro ao verificar autenticação:", error);
+        router.replace("/login");
+      }
+    };
+
+    checkAuth();
   }, [router.pathname]);
 
   const queryClient = new QueryClient();
 
-  if (checkingAuth) {
+  if (loading) {
     return (
       <ThemeProvider theme={theme}>
         <GlobalStyle />

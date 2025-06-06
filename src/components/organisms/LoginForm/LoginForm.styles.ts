@@ -14,11 +14,15 @@ export const FormWrapper = styled.div`
   align-items: flex-start; /* <- muda de center para flex-start */
   justify-content: center;
   padding: ${({ theme }) => theme.spacing.sm};
-  width: ${({ theme }) => theme.layout.contentWidth};
   height: ${({ theme }) => theme.layout.contentHeight};
   background-color: ${({ theme }) => theme.colors.white};
   box-shadow: ${({ theme }) => theme.colors.shadow};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
+  @media (max-width: 768px) {
+    padding: ${({ theme }) => theme.spacing.none};
+    flex-direction: column;
+    height: auto;
+  }
 `;
 
 export const LeftPanel = styled.div`
@@ -30,6 +34,10 @@ export const LeftPanel = styled.div`
   gap: ${({ theme }) => theme.spacing.md};
   width: 339px;
   height: 478px;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: ${({ theme }) => theme.spacing.lg};
+  }
 `;
 
 export const RightPanel = styled.div`
@@ -38,6 +46,9 @@ export const RightPanel = styled.div`
   position: relative;
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   overflow: hidden;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 export const OverlayImage = styled.img`

@@ -12,6 +12,7 @@
     "@faker-js/faker": "^9.8.0",
     "@tanstack/react-query": "^5.80.6",
     "lucide-react": "^0.513.0",
+    "mongodb": "^6.17.0",
     "next": "15.3.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
   height: 100vh;
   background: ${({ theme }) => theme.colors.white};
 
-  @media (max-width: 768px) {
+  @media (max-width: 860px) {
     position: relative;
   }
 `;
@@ -28,14 +28,14 @@ export const Content = styled.main`
 
 export const MobileToggle = styled.button`
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 10px;
+  left: 10px;
   background: transparent;
   border: none;
   z-index: 1000;
   display: none;
 
-  @media (max-width: 768px) {
+  @media (max-width: 860px) {
     display: block;
     color: ${({ theme }) => theme.colors.primary};
     cursor: pointer;
