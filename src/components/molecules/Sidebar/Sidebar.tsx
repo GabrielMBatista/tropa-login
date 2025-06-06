@@ -35,8 +35,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, onClose }) => {
   const { pathname, push } = useRouter();
   const { logout } = useAuth();
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     push("/login");
   };
 

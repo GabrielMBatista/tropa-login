@@ -20,9 +20,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsAuthenticated(true);
   };
 
-  const logout = () => {
-    localStorage.removeItem("isAuthenticated");
-    setIsAuthenticated(false);
+  const logout = async () => {
+    await fetch("/api/logout", { method: "POST" });
+    localStorage.removeItem("token");
   };
 
   return (

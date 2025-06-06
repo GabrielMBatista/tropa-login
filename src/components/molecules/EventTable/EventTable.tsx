@@ -13,6 +13,7 @@ import {
   DropdownMenu,
   DropdownItem,
   TableScrollWrapper,
+  MobileCardWrapper,
 } from "./EventTable.styles";
 import { faker } from "@faker-js/faker";
 import { Evento } from "@/types/Evento";
@@ -20,7 +21,7 @@ import { MoreVertical } from "lucide-react";
 import { Edit } from "@/components/atoms/Icons/Edit";
 import { Trash } from "@/components/atoms/Icons/Trash";
 import { formatDateRange } from "@/utils/formatDateRange";
-import { EventCard } from './EventCard';
+import { EventCard } from "./EventCard";
 
 interface EventTableProps {
   eventos: Evento[];
@@ -81,8 +82,8 @@ export const EventTable: React.FC<EventTableProps> = ({
         </TableRow>
 
         {eventosFiltrados.map((evento) => (
-          <>
-            <TableRow key={evento.id}>
+          <React.Fragment key={evento.id}>
+            <TableRow>
               <TableCell>{evento.name}</TableCell>
               <TableCell>{evento.totalTeams}</TableCell>
               <TableCell>
@@ -129,12 +130,11 @@ export const EventTable: React.FC<EventTableProps> = ({
                 </TableActions>
               </TableCell>
             </TableRow>
-            <EventCard
-              key={`card-${evento.id}`}
-              evento={evento}
-              onDelete={onDelete}
-            />
-          </>
+
+            <MobileCardWrapper>
+              <EventCard evento={evento} onDelete={onDelete} />
+            </MobileCardWrapper>
+          </React.Fragment>
         ))}
 
         {eventosFiltrados.length === 0 && (

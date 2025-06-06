@@ -160,3 +160,12 @@ export const Actions = styled.div`
   display: flex;
   gap: 10px;
 `;
+
+export const MobileCardWrapper = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+    margin-top: 8px;
+  }
+`;
