@@ -5,6 +5,10 @@ export const Wrapper = styled.div`
   width: 100%;
   height: 100vh;
   background: ${({ theme }) => theme.colors.white};
+
+  @media (max-width: 768px) {
+    position: relative;
+  }
 `;
 
 export const Container = styled.div`
@@ -12,7 +16,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  overflow: hidden; // evita scroll no container inteiro
+  overflow: hidden;
   background: ${({ theme }) => theme.colors.background};
 `;
 
@@ -20,4 +24,20 @@ export const Content = styled.main`
   flex: 1;
   overflow-y: auto;
   padding: ${({ theme }) => theme.spacing.lg};
+`;
+
+export const MobileToggle = styled.button`
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: transparent;
+  border: none;
+  z-index: 1000;
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+    color: ${({ theme }) => theme.colors.primary};
+    cursor: pointer;
+  }
 `;

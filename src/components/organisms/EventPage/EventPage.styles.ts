@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
   display: flex;
-  max-width: 1680px;
   margin: 0 auto;
   gap: 30px;
   height: 100vh;
@@ -16,7 +15,6 @@ export const ContentBox = styled.div`
   padding: 20px;
   gap: 10px;
   width: 100%;
-  max-width: 1410px;
   background: ${({ theme }) => theme.colors.white};
   border: 1px solid rgba(9, 66, 143, 0.17);
   border-radius: 10px;

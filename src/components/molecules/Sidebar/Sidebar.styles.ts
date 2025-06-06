@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Container = styled.aside`
+export const Container = styled.aside<{ $mobileOpen?: boolean }>`
   width: 210px;
   height: 100vh;
   background-color: ${({ theme }) => theme.colors.white};
@@ -9,6 +9,29 @@ export const Container = styled.aside`
   justify-content: space-between;
   padding-top: ${({ theme }) => theme.spacing.lg};
   border-right: 1px solid ${({ theme }) => theme.colors.divider};
+
+  @media (max-width: 768px) {
+    position: fixed;
+    top: 0;
+    left: ${({ $mobileOpen }) => ($mobileOpen ? "0" : "-210px")};
+    transition: left 0.3s ease-in-out;
+    z-index: 1000;
+  }
+`;
+
+export const Backdrop = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 999;
+  }
 `;
 
 export const LogoWrapper = styled.div`

@@ -1,22 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   PaginationContainer,
   PaginationButton,
   PageNumber,
 } from "./Pagination.styles";
 
-export const Pagination: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 3;
+interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onChangePage: (page: number) => void;
+}
 
-  const handlePageClick = (page: number) => {
-    setCurrentPage(page);
-  };
-
+export const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  totalPages,
+  onChangePage,
+}) => {
   return (
     <PaginationContainer>
       <PaginationButton
-        onClick={() => handlePageClick(currentPage - 1)}
+        onClick={() => onChangePage(currentPage - 1)}
         disabled={currentPage === 1}
       >
         Anterior
@@ -26,14 +29,14 @@ export const Pagination: React.FC = () => {
         <PageNumber
           key={i + 1}
           active={currentPage === i + 1}
-          onClick={() => handlePageClick(i + 1)}
+          onClick={() => onChangePage(i + 1)}
         >
           {i + 1}
         </PageNumber>
       ))}
 
       <PaginationButton
-        onClick={() => handlePageClick(currentPage + 1)}
+        onClick={() => onChangePage(currentPage + 1)}
         disabled={currentPage === totalPages}
       >
         Próxima
