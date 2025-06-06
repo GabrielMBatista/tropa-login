@@ -4,6 +4,7 @@ declare module "styled-components" {
   export interface DefaultTheme {
     colors: {
       primary: string;
+      backgroundOverlay: string;
       secondary: string;
       white: string;
       black: string;
@@ -49,6 +50,11 @@ declare module "styled-components" {
       md: string;
       lg: string;
       xl: string;
+    };
+    zIndex: {
+      loader: string;
+      modal: string;
+      tooltip: string;
     };
     borderRadius: {
       base: string;

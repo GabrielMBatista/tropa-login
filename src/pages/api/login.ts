@@ -28,7 +28,15 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
   db.sessions.push(novaSessao);
   fs.writeFileSync(dbPath, JSON.stringify(db, null, 2));
 
-  res.setHeader("Set-Cookie", `token=${sessionId}; Path=/; HttpOnly`);
+  const isProd = process.env.NODE_ENV === "production";
+
+  res.setHeader(
+    "Set-Cookie",
+    `token=${sessionId}; Path=/; Max-Age=3600; SameSite=Lax${
+      isProd ? "; Secure" : ""
+    }`
+  );
+
   return res.status(200).json({ success: true });
 };
 

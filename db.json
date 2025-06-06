@@ -95,21 +95,15 @@
       "status": "Inativo",
       "startDate": "2025-06-06",
       "endDate": "2025-06-11"
+    },
+    {
+      "id": 1749174440043,
+      "name": "Rempel, Mraz and Sauer",
+      "totalTeams": 8,
+      "status": "Inativo",
+      "startDate": "2025-06-07",
+      "endDate": "2025-06-08"
     }
   ],
-  "usuarios": [],
-  "sessions": [
-    {
-      "sessionId": "a029a22b-ebbd-47d6-93d0-a2828f2e3389",
-      "email": "admin@admin.com"
-    },
-    {
-      "sessionId": "083848be-ce89-4fb2-86ac-196a86c42c7c",
-      "email": "admin@admin.com"
-    },
-    {
-      "sessionId": "18464378-584d-49f3-868e-1a70a6b1ec2e",
-      "email": "admin@admin.com"
-    }
-  ]
+  "sessions": []
 }

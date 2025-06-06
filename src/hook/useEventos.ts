@@ -1,13 +1,22 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Evento } from "@/types/Evento";
+import { Evento } from '@/types/Evento';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-export const useEventos = () => {
+export const useEventos = (onRedirect?: (is: boolean) => void) => {
   const queryClient = useQueryClient();
 
   const { data, isLoading } = useQuery<Evento[]>({
     queryKey: ["eventos"],
     queryFn: async () => {
-      const res = await fetch("/api/eventos");
+      const res = await fetch("/api/eventos", {
+        credentials: "include",
+      });
+
+      if (res.status === 401) {
+        onRedirect?.(true);
+        window.location.href = "/login";
+        return [];
+      }
+
       return res.json();
     },
   });
@@ -18,7 +27,15 @@ export const useEventos = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(novo),
+        credentials: "include",
       });
+
+      if (res.status === 401) {
+        onRedirect?.(true);
+        window.location.href = "/login";
+        return;
+      }
+
       return res.json();
     },
     onSuccess: () => {
@@ -30,7 +47,15 @@ export const useEventos = () => {
     mutationFn: async (id: number) => {
       const res = await fetch(`/api/eventos/${id}`, {
         method: "DELETE",
+        credentials: "include",
       });
+
+      if (res.status === 401) {
+        onRedirect?.(true);
+        window.location.href = "/login";
+        return;
+      }
+
       return res.json();
     },
     onSuccess: () => {

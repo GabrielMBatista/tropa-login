@@ -1,6 +1,7 @@
 export const theme = {
   colors: {
     primary: "#CC6237",
+    backgroundOverlay: "rgba(255, 255, 255, 0.7)",
     secondary: "#D8BCA9",
     error: "#EF4444",
     white: "#FFFFFF",
@@ -39,6 +40,12 @@ export const theme = {
       tight: "15px",
       base: "23px",
     },
+  },
+  
+  zIndex: {
+    loader: 9999,
+    modal: 1000,
+    tooltip: 1100,
   },
 
   spacing: {
