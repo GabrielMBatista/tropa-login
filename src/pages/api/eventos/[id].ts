@@ -27,6 +27,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     writeDb(db);
     res.status(200).json({ deleted: true });
   } else {
-    res.status(405).end();
+    res.setHeader("Allow", "DELETE");
+    return res
+      .status(405)
+      .json({ error: `Método ${req.method} não permitido` });
   }
 }
