@@ -111,7 +111,9 @@ export const InputBox = styled.div`
   gap: ${({ theme }) => theme.spacing.xs};
 `;
 
-export const SubmitButton = styled.button`
+export const SubmitButton = styled.button.attrs({
+  type: "submit",
+})`
   width: 100%;
   height: 40px;
   background-color: ${({ theme }) => theme.colors.primary};
@@ -123,8 +125,7 @@ export const SubmitButton = styled.button`
   color: ${({ theme }) => theme.colors.white};
   border: none;
   cursor: pointer;
-  margin-top: ${({ theme }) =>
-    theme.spacing.sm}; // adiciona espaçamento claro após inputs
+  margin-top: ${({ theme }) => theme.spacing.sm};
 
   &:hover {
     filter: brightness(0.95);
