@@ -52,9 +52,9 @@ declare module "styled-components" {
       xl: string;
     };
     zIndex: {
-      loader: string;
-      modal: string;
-      tooltip: string;
+      loader: number;
+      modal: number;
+      tooltip: number;
     };
     borderRadius: {
       base: string;
