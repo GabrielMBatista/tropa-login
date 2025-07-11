@@ -32,13 +32,11 @@ export default async function handler(
     createdAt: new Date(),
   });
 
-  const isSecure = req.headers["x-forwarded-proto"] === "https";
+  // const isSecure = req.headers["x-forwarded-proto"] === "https";
 
   res.setHeader(
     "Set-Cookie",
-    `token=${sessionId}; Path=/; Max-Age=3600; HttpOnly; SameSite=Lax${
-      isSecure ? "; Secure" : ""
-    }`
+    `token=${sessionId}; Path=/; Max-Age=3600; HttpOnly; SameSite=None; Secure`
   );
 
   return res.status(200).json({ success: true });
