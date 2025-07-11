@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Rotas públicas que não exigem autenticação
 const PUBLIC_PATHS = [
   "/eventos",
   "/login",
@@ -14,24 +13,28 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get("token")?.value;
 
   const isPublic = PUBLIC_PATHS.some((path) => pathname.startsWith(path));
+  const isIframe =
+    request.headers.get("sec-fetch-dest") === "iframe" ||
+    request.headers.get("referer")?.includes("shell-frontend-beta.vercel.app");
 
-  // Debug via headers (aparece no DevTools > Network)
   const debugInfo = {
     path: pathname,
     token: token || "undefined",
     isPublic: isPublic.toString(),
+    isIframe: (isIframe ?? false).toString(),
   };
 
-  // Permite acesso a rotas públicas
-  if (isPublic) {
+  if (isPublic || isIframe) {
     const res = NextResponse.next();
-    res.headers.set("X-Debug-Middleware", "public-route");
+    res.headers.set(
+      "X-Debug-Middleware",
+      isIframe ? "iframe-access" : "public-route"
+    );
     res.headers.set("X-Debug-Path", debugInfo.path);
     res.headers.set("X-Debug-Token", debugInfo.token);
     return res;
   }
 
-  // Se não houver token, redireciona para login
   if (!token) {
     const loginUrl = new URL("/login", request.url);
     const res = NextResponse.redirect(loginUrl);
@@ -41,7 +44,6 @@ export function middleware(request: NextRequest) {
     return res;
   }
 
-  // Rota protegida com token válido
   const res = NextResponse.next();
   res.headers.set("X-Debug-Middleware", "authenticated-access");
   res.headers.set("X-Debug-Path", debugInfo.path);
