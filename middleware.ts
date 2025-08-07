@@ -12,7 +12,6 @@ const PUBLIC_PATHS = [
 
 const ALLOWED_FRAME_ORIGINS = [
   "gabrielmarquesbatista.com",
-  "www.gabrielmarquesbatista.com", // Adicionado
   "shell-frontend-beta.vercel.app",
   "tropa-login.vercel.app",
   "localhost:3000",
@@ -85,21 +84,23 @@ export function middleware(request: NextRequest) {
   }
 
   if (!token) {
-    console.log(
-      `[Middleware] Token ausente. Redirecionando para /login. Path: ${pathname}`
-    );
     const loginUrl = new URL("/login", request.url);
     const res = NextResponse.redirect(loginUrl);
     res.headers.set("X-Debug-Middleware", "redirect-to-login");
-    res.headers.set("X-Debug-Path", pathname);
+    res.headers.set("X-Debug-Path", debugInfo.path);
+    res.headers.set("X-Debug-Token", debugInfo.token);
+    res.headers.set("X-Debug-Referer", debugInfo.referer);
+
     setFrameHeaders(res);
     return res;
   }
 
-  console.log(`[Middleware] Token válido. Path: ${pathname}`);
   const res = NextResponse.next();
   res.headers.set("X-Debug-Middleware", "authenticated-access");
-  res.headers.set("X-Debug-Path", pathname);
+  res.headers.set("X-Debug-Path", debugInfo.path);
+  res.headers.set("X-Debug-Token", debugInfo.token);
+  res.headers.set("X-Debug-Referer", debugInfo.referer);
+
   setFrameHeaders(res);
   return res;
 }
