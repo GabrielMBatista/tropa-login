@@ -1,12 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "@/lib/mongodb";
 
-const ALLOWED_FRAME_ORIGINS = [
-  "gabrielmarquesbatista.com",
-  "shell-frontend-beta.vercel.app",
-  "localhost:3000",
-  "localhost:3001",
-];
 
 export default async function handler(
   req: NextApiRequest,
@@ -16,27 +10,12 @@ export default async function handler(
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  const isIframe = req.headers["sec-fetch-dest"] === "iframe";
-  const referer = req.headers.referer;
-  const isAllowedReferer =
-    referer && ALLOWED_FRAME_ORIGINS.some((origin) => referer.includes(origin));
-
   const token = req.cookies.token;
-  const isAuthenticated = req.cookies.isAuthenticated;
-
-  if (token || isAuthenticated) {
-    return res.status(200).json({ authenticated: true });
-  }
-
   if (!token) {
-    if (isIframe && isAllowedReferer) {
-      return res.status(200).json({
-        authenticated: false,
-        iframe: true,
-        message: "No session in iframe context",
-      });
-    }
-    return res.status(401).json({ authenticated: false });
+    console.log("[API /session] Token ausente.");
+    return res
+      .status(401)
+      .json({ authenticated: false, message: "Token ausente" });
   }
 
   try {
@@ -47,22 +26,18 @@ export default async function handler(
       .findOne({ sessionId: token });
 
     if (!session) {
-      if (isIframe && isAllowedReferer) {
-        return res.status(200).json({
-          authenticated: false,
-          iframe: true,
-          message: "Invalid session in iframe context",
-        });
-      }
-      return res.status(401).json({ authenticated: false });
+      console.log("[API /session] Sessão inválida.");
+      return res
+        .status(401)
+        .json({ authenticated: false, message: "Sessão inválida" });
     }
 
-    return res.status(200).json({
-      authenticated: true,
-      user: { email: session.email },
-      iframe: isIframe && isAllowedReferer,
-    });
-  } catch {
+    console.log("[API /session] Sessão válida.");
+    return res
+      .status(200)
+      .json({ authenticated: true, user: { email: session.email } });
+  } catch (error) {
+    console.error("[API /session] Erro interno:", error);
     return res.status(500).json({ error: "Erro interno" });
   }
 }

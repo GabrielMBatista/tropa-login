@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
           {
             key: "Content-Security-Policy",
             value:
-              "frame-ancestors 'self' https://gabrielmarquesbatista.com https://shell-frontend-beta.vercel.app http://localhost:3000 http://localhost:3001;",
+              "frame-ancestors 'self' https://gabrielmarquesbatista.com https://www.gabrielmarquesbatista.com https://shell-frontend-beta.vercel.app http://localhost:3000 http://localhost:3001;",
           },
         ],
       },
