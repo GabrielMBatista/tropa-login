@@ -14,9 +14,14 @@ const PUBLIC_ROUTES = ["/login"];
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const isPublic = PUBLIC_ROUTES.includes(router.pathname);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => !isPublic);
 
   useEffect(() => {
+    if (isPublic) {
+      setLoading(false);
+      return;
+    }
+
     const checkAuth = async () => {
       try {
         const res = await fetch("/api/session", {
@@ -26,19 +31,19 @@ export default function App({ Component, pageProps }: AppProps) {
 
         const data = await res.json();
 
-        if (!data.authenticated && !isPublic) {
+        if (!data.authenticated) {
           router.replace("/login");
-        } else {
-          setLoading(false);
         }
       } catch (error) {
         console.error("Erro ao verificar autenticação:", error);
         router.replace("/login");
+      } finally {
+        setLoading(false);
       }
     };
 
     checkAuth();
-  }, [router.pathname]);
+  }, [isPublic, router]);
 
   const queryClient = new QueryClient();
 
