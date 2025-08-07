@@ -18,28 +18,18 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     const checkAuth = async () => {
-      // Se é rota pública, não verificar autenticação
-      if (isPublic) {
-        setLoading(false);
-        return;
-      }
-
       try {
         const res = await fetch("/api/session", {
           method: "GET",
           credentials: "include",
         });
 
-        if (res.ok) {
-          const data = await res.json();
-          if (!data.authenticated) {
-            router.replace("/login");
-          } else {
-            setLoading(false);
-          }
-        } else {
-          // Se API retornar erro, redirecionar para login
+        const data = await res.json();
+
+        if (!data.authenticated && !isPublic) {
           router.replace("/login");
+        } else {
+          setLoading(false);
         }
       } catch (error) {
         console.error("Erro ao verificar autenticação:", error);
@@ -48,7 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
     };
 
     checkAuth();
-  }, [router.pathname, isPublic]);
+  }, [router.pathname]);
 
   const queryClient = new QueryClient();
 
