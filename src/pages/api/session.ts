@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "@/lib/mongodb";
 
-// Domínios permitidos para iframe (mesmo array do middleware)
 const ALLOWED_FRAME_ORIGINS = [
   "gabrielmarquesbatista.com",
   "shell-frontend-beta.vercel.app",
@@ -13,16 +12,23 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // Verificação mais segura para iframe
+  if (req.method !== "GET") {
+    return res.status(405).json({ message: "Method not allowed" });
+  }
+
   const isIframe = req.headers["sec-fetch-dest"] === "iframe";
   const referer = req.headers.referer;
   const isAllowedReferer =
     referer && ALLOWED_FRAME_ORIGINS.some((origin) => referer.includes(origin));
 
   const token = req.cookies.token;
+  const isAuthenticated = req.cookies.isAuthenticated;
+
+  if (token || isAuthenticated) {
+    return res.status(200).json({ authenticated: true });
+  }
 
   if (!token) {
-    // Se for iframe de origem permitida, retornar resposta amigável
     if (isIframe && isAllowedReferer) {
       return res.status(200).json({
         authenticated: false,
