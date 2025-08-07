@@ -48,7 +48,7 @@ export default function App({ Component, pageProps }: AppProps) {
     };
 
     checkAuth();
-  }, [router, router.pathname, isPublic]);
+  }, [router.pathname, isPublic]);
 
   const queryClient = new QueryClient();
 
