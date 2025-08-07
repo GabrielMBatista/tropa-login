@@ -9,12 +9,13 @@ const PUBLIC_PATHS = [
   "/_next",
 ];
 
+// Domínios permitidos para iframe
 const ALLOWED_FRAME_ORIGINS = [
   "gabrielmarquesbatista.com",
   "shell-frontend-beta.vercel.app",
-  "tropa-login.vercel.app",
   "localhost:3000",
   "localhost:3001",
+  // Adicione outros domínios conforme necessário
 ];
 
 export function middleware(request: NextRequest) {
@@ -24,31 +25,30 @@ export function middleware(request: NextRequest) {
 
   const isPublic = PUBLIC_PATHS.some((path) => pathname.startsWith(path));
 
-  const isIframe =
-    request.headers.get("sec-fetch-dest") === "iframe" ||
-    request.headers.get("sec-fetch-mode") === "navigate" ||
-    request.headers.get("sec-fetch-site") === "cross-site";
-
+  // Verificação mais segura para iframe
+  const isIframe = request.headers.get("sec-fetch-dest") === "iframe";
   const isAllowedReferer =
-    referer &&
-    ALLOWED_FRAME_ORIGINS.some(
-      (origin) =>
-        referer.includes(origin) ||
-        referer.includes(`http://${origin}`) ||
-        referer.includes(`https://${origin}`)
-    );
+    referer && ALLOWED_FRAME_ORIGINS.some((origin) => referer.includes(origin));
 
   const debugInfo = {
     path: pathname,
     token: token || "undefined",
     isPublic: isPublic.toString(),
     isIframe: (isIframe ?? false).toString(),
-    referer: referer || "none",
   };
 
-  const setFrameHeaders = (res: NextResponse) => {
-    if (isAllowedReferer) {
-      res.headers.delete("X-Frame-Options");
+  if (isPublic || (isIframe && isAllowedReferer)) {
+    const res = NextResponse.next();
+    res.headers.set(
+      "X-Debug-Middleware",
+      isIframe ? "iframe-access" : "public-route"
+    );
+    res.headers.set("X-Debug-Path", debugInfo.path);
+    res.headers.set("X-Debug-Token", debugInfo.token);
+
+    // Configuração segura para iframe
+    if (isIframe && isAllowedReferer) {
+      res.headers.set("X-Frame-Options", "SAMEORIGIN");
       const allowedOrigins = ALLOWED_FRAME_ORIGINS.map(
         (origin) => `https://${origin} http://${origin}`
       ).join(" ");
@@ -57,22 +57,9 @@ export function middleware(request: NextRequest) {
         `frame-ancestors 'self' ${allowedOrigins}`
       );
     } else {
-      res.headers.set("X-Frame-Options", "SAMEORIGIN");
-      res.headers.set(
-        "Content-Security-Policy",
-        `frame-ancestors 'self' localhost:* *.vercel.app *.gabrielmarquesbatista.com`
-      );
+      res.headers.set("X-Frame-Options", "DENY");
     }
-  };
 
-  if (isPublic) {
-    const res = NextResponse.next();
-    res.headers.set("X-Debug-Middleware", "public-route");
-    res.headers.set("X-Debug-Path", debugInfo.path);
-    res.headers.set("X-Debug-Token", debugInfo.token);
-    res.headers.set("X-Debug-Referer", debugInfo.referer);
-
-    setFrameHeaders(res);
     return res;
   }
 
@@ -82,9 +69,6 @@ export function middleware(request: NextRequest) {
     res.headers.set("X-Debug-Middleware", "redirect-to-login");
     res.headers.set("X-Debug-Path", debugInfo.path);
     res.headers.set("X-Debug-Token", debugInfo.token);
-    res.headers.set("X-Debug-Referer", debugInfo.referer);
-
-    setFrameHeaders(res);
     return res;
   }
 
@@ -92,9 +76,6 @@ export function middleware(request: NextRequest) {
   res.headers.set("X-Debug-Middleware", "authenticated-access");
   res.headers.set("X-Debug-Path", debugInfo.path);
   res.headers.set("X-Debug-Token", debugInfo.token);
-  res.headers.set("X-Debug-Referer", debugInfo.referer);
-
-  setFrameHeaders(res);
   return res;
 }
 
