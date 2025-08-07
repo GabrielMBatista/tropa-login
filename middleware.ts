@@ -26,6 +26,9 @@ export function middleware(request: NextRequest) {
 
   const isPublic = PUBLIC_PATHS.some((path) => pathname.startsWith(path));
   const isApiRoute = pathname.startsWith("/api/");
+  if (isApiRoute && !isPublic && !token) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
 
   const isIframe =
     request.headers.get("sec-fetch-dest") === "iframe" ||
