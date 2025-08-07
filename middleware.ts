@@ -6,7 +6,6 @@ const PUBLIC_PATHS = [
   "/favicon.ico",
   "/api/login",
   "/api/session",
-  "/api/",
   "/_next",
 ];
 
@@ -24,7 +23,6 @@ export function middleware(request: NextRequest) {
   const referer = request.headers.get("referer");
 
   const isPublic = PUBLIC_PATHS.some((path) => pathname.startsWith(path));
-  const isApiRoute = pathname.startsWith("/api/");
 
   const isIframe =
     request.headers.get("sec-fetch-dest") === "iframe" ||
@@ -67,19 +65,14 @@ export function middleware(request: NextRequest) {
     }
   };
 
-  if (isApiRoute || isPublic) {
+  if (isPublic) {
     const res = NextResponse.next();
-    res.headers.set(
-      "X-Debug-Middleware",
-      isApiRoute ? "api-route" : "public-route"
-    );
+    res.headers.set("X-Debug-Middleware", "public-route");
     res.headers.set("X-Debug-Path", debugInfo.path);
     res.headers.set("X-Debug-Token", debugInfo.token);
     res.headers.set("X-Debug-Referer", debugInfo.referer);
 
-    if (!isApiRoute) {
-      setFrameHeaders(res);
-    }
+    setFrameHeaders(res);
     return res;
   }
 
@@ -106,5 +99,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/|favicon.ico).*)"],
+  matcher: ["/((?!api/|_next/|favicon.ico).*)"],
 };
