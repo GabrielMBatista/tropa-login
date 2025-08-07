@@ -63,6 +63,7 @@ export const LoginForm = () => {
                 placeholder="seunome@seuservidor.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
               />
             </InputBox>
 
@@ -76,6 +77,7 @@ export const LoginForm = () => {
                   placeholder="Digite aqui"
                   value={senha}
                   onChange={(e) => setSenha(e.target.value)}
+                  autoComplete="current-password"
                 />
                 <ToggleVisibility
                   type="button"

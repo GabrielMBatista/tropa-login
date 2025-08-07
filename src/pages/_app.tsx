@@ -6,10 +6,18 @@ import { theme } from "@/styles/theme";
 import { GlobalStyle } from "@/styles/GlobalStyle";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { Layout } from "@/components/organisms/Layout/Layout";
-import { LoaderOverlay } from "@/components/molecules/Loader/LoaderOverlay";
+import dynamic from "next/dynamic";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const PUBLIC_ROUTES = ["/login"];
+
+const LoaderOverlay = dynamic(
+  () =>
+    import("@/components/molecules/Loader/LoaderOverlay").then(
+      (mod) => mod.LoaderOverlay
+    ),
+  { ssr: false }
+);
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();

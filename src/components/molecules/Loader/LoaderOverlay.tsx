@@ -4,7 +4,9 @@ import { Overlay } from "./LoaderOverlay.styles";
 export const LoaderOverlay = () => {
   return (
     <Overlay>
-      <Loader />
+      <div>
+        <Loader />
+      </div>
     </Overlay>
   );
 };
