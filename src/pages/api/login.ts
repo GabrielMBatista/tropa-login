@@ -2,6 +2,14 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { v4 as uuidv4 } from "uuid";
 import clientPromise from "@/lib/mongodb";
 
+// Domínios permitidos para iframe
+const ALLOWED_FRAME_ORIGINS = [
+  "gabrielmarquesbatista.com",
+  "shell-frontend-beta.vercel.app",
+  "localhost:3000",
+  "localhost:3001",
+];
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -33,9 +41,24 @@ export default async function handler(
   });
 
   const isSecure = req.headers["x-forwarded-proto"] === "https";
-  res.setHeader(
-    "Set-Cookie",
-    `token=${sessionId}; Path=/; HttpOnly; Secure=${isSecure}; SameSite=Strict`
-  );
-  return res.status(200).json({ message: "Login bem-sucedido" });
+  const isIframe = req.headers["sec-fetch-dest"] === "iframe";
+  const referer = req.headers.referer;
+  const isAllowedReferer =
+    referer && ALLOWED_FRAME_ORIGINS.some((origin) => referer.includes(origin));
+
+  // Configurar cookie com atributos apropriados para iframe
+  const cookieAttributes = [
+    `token=${sessionId}`,
+    "HttpOnly",
+    "Path=/",
+    "Max-Age=86400",
+    isSecure ? "Secure" : "",
+    isIframe && isAllowedReferer ? "SameSite=None" : "SameSite=Lax",
+  ]
+    .filter(Boolean)
+    .join("; ");
+
+  res.setHeader("Set-Cookie", cookieAttributes);
+
+  return res.status(200).json({ success: true });
 }
