@@ -8,8 +8,9 @@ const nextConfig: NextConfig = {
         source: "/(.*)",
         headers: [
           {
-            key: "X-Frame-Options",
-            value: "SAMEORIGIN",
+            key: "Content-Security-Policy",
+            value:
+              "frame-ancestors 'self' https://gabrielmarquesbatista.com https://shell-frontend-beta.vercel.app http://localhost:3000 http://localhost:3001;",
           },
         ],
       },
